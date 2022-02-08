@@ -1,6 +1,5 @@
 const defaultState = {
   requests: [],
-  asc: true,
 };
 
 const requestReducer = (state = defaultState, action) => {
@@ -12,23 +11,11 @@ const requestReducer = (state = defaultState, action) => {
         requests: requestPayload,
       };
 
-    case "SORT_TABLE_BY":
-      const { sortby, asc } = action.payload;
-      const sortedData = state.requests.sort((a, b) => {
-        const nameA = a[sortby];
-        const nameB = b[sortby];
-        if (asc) {
-          state.asc = false;
-          return nameA > nameB ? 1 : -1;
-        } else {
-          state.asc = true;
-          return nameA > nameB ? -1 : 1;
-        }
-      });
-      console.log("sorteddata", sortedData);
+    case "FETCH_BY_DATE":
+      const reqDatePayload = action.payload;
       return {
         ...state,
-        requests: [...sortedData],
+        requests: reqDatePayload,
       };
 
     default:

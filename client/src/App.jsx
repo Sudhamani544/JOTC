@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import Game from "./components/Game";
-import Requests from "./components/Requests";
-import Login from "./components/Login";
 
+import Game from "./components/pages/Game";
+import Requests from "./components/pages/Requests";
+import Login from "./components/pages/Login";
+import ValidateUser from "./components/pages/ValidateUser";
 import "./App.css";
-import ValidateUser from "./components/ValidateUser";
 
 function App() {
   return (
-    <div>
+    <div className="bgImage">
       <Routes>
         <Route path="/" element={<ValidateUser />} />
         <Route path="/game" element={<Game />} />

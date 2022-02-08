@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-import Output from "./Output";
-import "./game.css";
+import Output from "../Output";
 
 const Game = () => {
   const [inp_len, setInpLen] = useState(0);
@@ -14,6 +15,10 @@ const Game = () => {
   const getLen = (e) => {
     setInpLen(e.target.value);
   };
+
+  const isValidPlayer = useSelector((state) => {
+    return state.userReducer.isValidPlayer;
+  });
 
   //cloud pattern
   const getPattern = (e) => {
@@ -31,8 +36,10 @@ const Game = () => {
     let noError = true;
     //validate if pattern has only 1 or 0
     for (const i in pattern) {
-      if (pattern[i] !== 0 || pattern[i] !== 1) {
-        alert("please enter either 0 or 1");
+      if (pattern[i] === 0 || pattern[i] === 1) {
+        continue;
+      } else {
+        alert("Please enter either 0 or 1");
         noError = false;
         break;
       }
@@ -42,7 +49,7 @@ const Game = () => {
     for (let j = 0; j < inp_len; j++) {
       if (pattern[j] === 1 && pattern[j + 1] === 1) {
         noError = false;
-        alert("no consecutive numbers sould be 1");
+        alert("No consecutive numbers sould be 1");
         break;
       }
     }
@@ -58,7 +65,7 @@ const Game = () => {
     } else {
       noError = false;
       alert(
-        "make sure length and size of pattern are of same. And also starting and ending digits are zero"
+        "Make sure length and size of pattern are of same. And also starting and ending digits are zero"
       );
     }
 
@@ -77,8 +84,9 @@ const Game = () => {
     }
   };
 
-  const email_id = localStorage.getItem("emailId");
+  const email_id = localStorage.getItem("email");
 
+  //if input data is valid, insert data into database
   const insertData = async () => {
     try {
       const data = {
@@ -87,11 +95,7 @@ const Game = () => {
         pattern,
         output,
       };
-      const myReq = {
-        body: JSON.stringify(data),
-        header: { "Content-Type": "aplication/json" },
-        method: "POST",
-      };
+
       const response = await axios.post(
         `http://localhost:5000/api/v1/requests`,
         data,
@@ -114,18 +118,26 @@ const Game = () => {
   }, [validated]);
 
   return (
-    <div className="bg-image">
-      <form>
-        <label>Total no:of clouds</label>
-        <input onChange={getLen} placeholder="enter length"></input>
-        <label>Cloud pattern</label>
-        <input onChange={getPattern} placeholder="enter pattern"></input>
-        <button onClick={getOutput}>Submit</button>
-      </form>
-      {validated ? (
-        <Output inp_len={inp_len} output={output} pattern={pattern} />
-      ) : null}
-    </div>
+    <>
+      {isValidPlayer ? (
+        <div className="bg-image">
+          <form>
+            <label>Total no:of clouds</label>
+            <input onChange={getLen} placeholder="enter length"></input>
+            <label>Cloud pattern</label>
+            <input onChange={getPattern} placeholder="enter pattern"></input>
+            <button onClick={getOutput} className="btn">
+              Submit
+            </button>
+          </form>
+          <Output inp_len={inp_len} output={output} pattern={pattern} />
+        </div>
+      ) : (
+        <div>
+          Please enter valid details <Link to={`/`}> here </Link> to play a game
+        </div>
+      )}
+    </>
   );
 };
 

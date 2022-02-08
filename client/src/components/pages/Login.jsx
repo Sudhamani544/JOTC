@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { validUser } from "../redux/actions/userAction";
+import { validUser } from "../../redux/actions/userAction";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,13 +22,17 @@ const Login = () => {
       console.log("error", error);
     }
 
+    //validate admin user, if success then login
     if (
       details.emailId === adminuser[0].email_id &&
       details.pwd === adminuser[0].pwd &&
       adminuser[0].is_admin
     ) {
+      localStorage.setItem("isValidUser", true);
       dispatch(validUser(true));
       navigate("/admin/requests");
+    } else {
+      alert("EmailId and password doesn't match");
     }
   };
 
@@ -39,11 +43,11 @@ const Login = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Username:</label>
-        <input onChange={onChange} name="emailId"></input>
-        <label>Password:</label>
-        <input onChange={onChange} name="pwd"></input>
-        <button>Login</button>
+        <label>Username</label>
+        <input onChange={onChange} name="emailId" />
+        <label>Password</label>
+        <input onChange={onChange} type="password" name="pwd" />
+        <button className="btn">Login</button>
       </form>
     </div>
   );

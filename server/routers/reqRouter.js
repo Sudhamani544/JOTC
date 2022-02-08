@@ -41,14 +41,17 @@ router.get("/email/:emailId", async (req, res, next) => {
   }
 });
 
-//get a request by date
-router.get("/date/:date", async (req, res, next) => {
+//get a request by date range
+router.get("/date/:date1/:date2", async (req, res, next) => {
   try {
-    id = req.params.date;
+    date1 = req.params.date1;
+    date2 = req.params.date2;
+
     const getReqByDate = await pool.query(
-      "SELECT * FROM jotcReq WHERE date=$1",
-      [id]
+      "SELECT * FROM jotcreq WHERE date>=$1 AND date<=$2",
+      [date1, date2]
     );
+
     res.json(getReqByDate.rows);
   } catch (err) {
     console.log(err.messages);

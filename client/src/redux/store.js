@@ -19,12 +19,12 @@ const storeFactory = () => {
   }
   const reduxStore = createStore(
     rootReducer,
-    loadFromLocalStorage(),
+    // loadFromLocalStorage(),
     // JSON.parse(localStorage.getItem("statePersist")),
     composeWithDevTools(applyMiddleware(...middlewares))
   );
   reduxStore.subscribe(() => {
-    localStorage.setItem("statePersist", JSON.stringify(reduxStore.getState()));
+    // localStorage.setItem("statePersist", JSON.stringify(reduxStore.getState()));
   });
   return reduxStore;
 };

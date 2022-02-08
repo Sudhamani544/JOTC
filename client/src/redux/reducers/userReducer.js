@@ -3,6 +3,7 @@ const defaultState = {
   user: null,
   error: null,
   isValid: false,
+  isValidPlayer: false,
 };
 
 const userReducer = (state = defaultState, action) => {
@@ -35,6 +36,13 @@ const userReducer = (state = defaultState, action) => {
       return {
         isValid: validPayload,
       };
+
+    case "VALIDATE_PLAYER":
+      const validPlayerPayload = action.payload;
+      return {
+        isValidPlayer: validPlayerPayload,
+      };
+
     default:
       return state;
   }

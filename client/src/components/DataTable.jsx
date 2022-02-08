@@ -10,11 +10,15 @@ function DataTable({ items, columns }) {
   if (items.length > 0) {
     return (
       <TableContainer>
-        <Table>
+        <Table className="reqTable">
           <TableHead>
-            <TableRow>
+            <TableRow className="reqRow">
               {columns.map((col) => {
-                return <TableCell key={col.id}>{col.label}</TableCell>;
+                return (
+                  <TableCell className="reqHeadCell" key={col.id}>
+                    {col.label}
+                  </TableCell>
+                );
               })}
             </TableRow>
           </TableHead>
@@ -37,7 +41,7 @@ function DataTable({ items, columns }) {
       </TableContainer>
     );
   } else {
-    return <p>Nothing to display...</p>;
+    return <p>Request us empty, Nothing to display...</p>;
   }
 }
 
