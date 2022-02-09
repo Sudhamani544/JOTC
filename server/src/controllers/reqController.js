@@ -5,7 +5,7 @@ module.exports.createRequest = async (req, res, next) => {
   try {
     const { email_id, inp_len, pattern, output } = req.body;
     const createReq = await pool.query(
-      "INSERT INTO jotcReq (email_id, inp_len, pattern, output) VALUES($1,$2,$3,$4) RETURNING *",
+      "INSERT INTO jotcreq (email_id, inp_len, pattern, output) VALUES($1,$2,$3,$4) RETURNING *",
       [email_id, inp_len, pattern, output]
     );
     res.json(createReq.rows);
@@ -17,7 +17,7 @@ module.exports.createRequest = async (req, res, next) => {
 //GET all
 module.exports.getRequest = async (req, res, next) => {
   try {
-    const getAllReq = await pool.query("SELECT * FROM jotcReq");
+    const getAllReq = await pool.query("SELECT * FROM jotcreq");
     res.json(getAllReq.rows);
   } catch (err) {
     console.log(err);
@@ -29,7 +29,7 @@ module.exports.getByEmailId = async (req, res, next) => {
   try {
     id = req.params.emailId;
     const getReqById = await pool.query(
-      "SELECT * FROM jotcReq WHERE email_id=$1",
+      "SELECT * FROM jotcreq WHERE email_id=$1",
       [id]
     );
     res.json(getReqById.rows);

@@ -9,7 +9,7 @@ date_of_birth DATE NOT NULL,
 is_Admin BOOLEAN NOT NULL,
 pwd VARCHAR(64));
 
-CREATE TABLE jotcReq(
+CREATE TABLE jotcreq(
 id SERIAL PRIMARY KEY,
 email_id VARCHAR(64) NOT NULL ,
 date DATE DEFAULT NOW(),
