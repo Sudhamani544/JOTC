@@ -1,10 +1,10 @@
-const pool = require("../db");
+const client = require("../db");
 
 // POST /
 module.exports.createRequest = async (req, res, next) => {
   try {
     const { email_id, inp_len, pattern, output } = req.body;
-    const createReq = await pool.query(
+    const createReq = await client.query(
       "INSERT INTO jotcreq (email_id, inp_len, pattern, output) VALUES($1,$2,$3,$4) RETURNING *",
       [email_id, inp_len, pattern, output]
     );
@@ -17,7 +17,7 @@ module.exports.createRequest = async (req, res, next) => {
 //GET all
 module.exports.getRequest = async (req, res, next) => {
   try {
-    const getAllReq = await pool.query("SELECT * FROM jotcreq");
+    const getAllReq = await client.query("SELECT * FROM jotcreq");
     res.json(getAllReq.rows);
   } catch (err) {
     console.log(err);
@@ -28,7 +28,7 @@ module.exports.getRequest = async (req, res, next) => {
 module.exports.getByEmailId = async (req, res, next) => {
   try {
     id = req.params.emailId;
-    const getReqById = await pool.query(
+    const getReqById = await client.query(
       "SELECT * FROM jotcreq WHERE email_id=$1",
       [id]
     );
@@ -44,7 +44,7 @@ module.exports.getByDateRange = async (req, res, next) => {
     date1 = req.params.date1;
     date2 = req.params.date2;
 
-    const getReqByDate = await pool.query(
+    const getReqByDate = await client.query(
       "SELECT * FROM jotcreq WHERE date>=$1 AND date<=$2",
       [date1, date2]
     );
