@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import FormInput from "../FormInput";
 import { validPlayer, insertToUserTable } from "../../redux/actions/userAction";
 
 const ValidateUser = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [inputValues, setInputValues] = useState({
     emailId: "",
     firstName: "",
     lastName: "",
     dateOfBirth: "",
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const inputs = [
     {
@@ -79,12 +79,10 @@ const ValidateUser = () => {
 
     let isValid;
     let email = JSON.parse(localStorage.getItem("emailId"));
-    let validatedEmail = JSON.parse(localStorage.getItem("emailId"));
-    console.log("validatedEmail", validatedEmail);
 
     //if email validated already, get result from local storage
-    for (const i in validatedEmail) {
-      if (validatedEmail[i] === inputValues.emailId) {
+    for (const i in email) {
+      if (email[i] === inputValues.emailId) {
         isValid = true;
       }
     }
@@ -97,10 +95,8 @@ const ValidateUser = () => {
           `https://api.trumail.io/v2/lookups/json?email=${inputValues.emailId}`
         );
         fetchAPI = item.data;
-        console.log("getReq", fetchAPI);
         if (fetchAPI.validFormat === true && fetchAPI.deliverable === true) {
           email.push(inputValues.emailId);
-          console.log(email);
           localStorage.setItem("emailId", JSON.stringify(email));
           isValid = true;
         } else {
@@ -111,12 +107,11 @@ const ValidateUser = () => {
       }
     }
 
-    //check if age and email are matching criteria
+    //Validate age and email
     if (isValid) {
       if (age >= 18) {
         localStorage.setItem("email", inputValues.emailId);
         dispatch(validPlayer(true));
-        navigate("/game");
       } else {
         alert("age should be 18 years or older");
       }
@@ -125,7 +120,6 @@ const ValidateUser = () => {
     }
   };
 
-  //set input values from the form
   const onChange = (e) => {
     setInputValues({ ...inputValues, [e.target.name]: e.target.value });
   };
@@ -134,14 +128,14 @@ const ValidateUser = () => {
     return state.userReducer.isValidPlayer;
   });
 
+  //check if player is registered
   useEffect(() => {
     if (isValidPlayer === true) {
       dispatch(insertToUserTable(inputValues));
-      dispatch(validPlayer(false));
+      navigate("/game");
     }
   }, [isValidPlayer]);
 
-  console.log("inputvalues", inputValues);
   return (
     <div className="bg-image">
       <form className="form" onSubmit={handleSubmit}>

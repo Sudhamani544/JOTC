@@ -5,7 +5,7 @@ const Output = (props) => {
 
   return (
     <div className="output">
-      <h1>output: {output}</h1>
+      <h1>Output: {output}</h1>
       {/* {pattern.map((item) => item)} */}
     </div>
   );

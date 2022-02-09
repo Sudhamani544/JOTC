@@ -4,7 +4,9 @@ import axios from "axios";
 export const getRequest = () => {
   return async (dispatch, getState) => {
     try {
-      const getData = await axios("http://localhost:5000/api/v1/requests");
+      const getData = await axios(
+        "https://jotclouds.herokuapp.com/api/v1/requests"
+      );
       const requestList = getData.data;
 
       dispatch(fetchRequestList(requestList));
@@ -27,7 +29,7 @@ export const getRequestByDate = (from, to) => {
     try {
       console.log("action", from, to);
       const getData = await axios(
-        `http://localhost:5000/api/v1/requests/date/${from}/${to}`
+        `https://jotclouds.herokuapp.com/api/v1/requests/date/${from}/${to}`
       );
       const dateList = getData.data;
       console.log("getData", getData.data);

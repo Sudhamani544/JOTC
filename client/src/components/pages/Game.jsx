@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Output from "../Output";
+import { validPlayer } from "../../redux/actions/userAction";
 
 const Game = () => {
   const [inp_len, setInpLen] = useState(0);
@@ -11,14 +12,15 @@ const Game = () => {
   const [output, setOutput] = useState(0);
   const [validated, setValidated] = useState(false);
 
-  //total no:of clouds
-  const getLen = (e) => {
-    setInpLen(e.target.value);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isValidPlayer = useSelector((state) => {
     return state.userReducer.isValidPlayer;
   });
+
+  //total no:of clouds
+  const getLen = (e) => setInpLen(e.target.value);
 
   //cloud pattern
   const getPattern = (e) => {
@@ -65,7 +67,7 @@ const Game = () => {
     } else {
       noError = false;
       alert(
-        "Make sure length and size of pattern are of same. And also starting and ending digits are zero"
+        "1. Total no:of clouds must be equal to the length of cloud pattern.\n 2. Starting and ending digits of the cloud pattern should be zero."
       );
     }
 
@@ -86,7 +88,6 @@ const Game = () => {
 
   const email_id = localStorage.getItem("email");
 
-  //if input data is valid, insert data into database
   const insertData = async () => {
     try {
       const data = {
@@ -97,7 +98,7 @@ const Game = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:5000/api/v1/requests`,
+        `https://jotclouds.herokuapp.com/api/v1/requests`,
         data,
         {
           headers: {
@@ -110,6 +111,7 @@ const Game = () => {
     }
   };
 
+  //if input data is valid, insert data into database
   useEffect(() => {
     if (validated === true) {
       insertData();
@@ -117,10 +119,20 @@ const Game = () => {
     }
   }, [validated]);
 
+  const onClick = (e) => {
+    dispatch(validPlayer(false));
+    navigate("/");
+  };
+
   return (
     <>
       {isValidPlayer ? (
         <div className="bg-image">
+          <div className="btnExit">
+            <button className="btnLogout" onClick={onClick}>
+              Exit
+            </button>
+          </div>
           <form>
             <label>Total no:of clouds</label>
             <input onChange={getLen} placeholder="enter length"></input>

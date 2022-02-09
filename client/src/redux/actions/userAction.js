@@ -13,7 +13,7 @@ export const insertToUserTable = (data) => {
         is_admin: false,
       };
       const response = await axios.post(
-        `http://localhost:5000/api/v1/user`,
+        `https://jotclouds.herokuapp.com/api/v1/user`,
         JSON.stringify(playerData),
         {
           headers: {
@@ -30,7 +30,7 @@ export const insertToUserTable = (data) => {
 //redux-thunk to fetch data using async, this thunk is called in CountryTableContainer
 export const getUser = () => {
   return async (dispatch, getState) => {
-    const getData = await axios("http://localhost:5000/api/v1/user");
+    const getData = await axios("https://jotclouds.herokuapp.com/api/v1/user");
     const requestList = getData.data;
 
     dispatch(fetchUserList(requestList));
@@ -49,7 +49,7 @@ export const getOneUser = (email_id) => {
   return async (dispatch, getState) => {
     try {
       const item = await axios(
-        `http://localhost:5000/api/v1/user/email/${email_id}`
+        `https://jotclouds.herokuapp.com/api/v1/user/email/${email_id}`
       );
       const user = item.data;
       dispatch(fetchOneProduct(user));

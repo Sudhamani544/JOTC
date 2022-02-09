@@ -12,7 +12,7 @@ const NavBar = ({ setInputData, fromDate, toDate, filterDates }) => {
   const dispatch = useDispatch();
 
   const onClick = (e) => {
-    localStorage.setItem("isValidUser", false);
+    // localStorage.setItem("isValidUser", false);
     dispatch(validUser(false));
     navigate("/admin/login");
   };

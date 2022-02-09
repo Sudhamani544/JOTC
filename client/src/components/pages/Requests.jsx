@@ -13,14 +13,11 @@ const Requests = () => {
   const [searchInput, setSearchInput] = useState("");
   const [date, setDate] = useState({ fromDate: "", toDate: "" });
 
-  const inputHandler = (e) => {
-    setSearchInput(e.target.value);
-  };
-
+  const inputHandler = (e) => setSearchInput(e.target.value);
   const fromDate = (e) => setDate({ ...date, [e.target.name]: e.target.value });
   const toDate = (e) => setDate({ ...date, [e.target.name]: e.target.value });
 
-  const isValidUser = localStorage.getItem("isValidUser");
+  // const isValidUser = localStorage.getItem("isValidUser");
 
   useEffect(() => {
     dispatch(getRequest());
@@ -75,9 +72,9 @@ const Requests = () => {
     },
   ];
 
-  // const isValidUser = useSelector((state) => {
-  //   return state.userReducer.isValid;
-  // });
+  const isValidUser = useSelector((state) => {
+    return state.userReducer.isValid;
+  });
 
   return (
     <>
@@ -91,16 +88,14 @@ const Requests = () => {
           />
           <DataTable
             items={requests.filter((request) =>
-              request.email_id
-                .toLowerCase()
-                .startsWith(searchInput.toLowerCase())
+              request.email_id.toLowerCase().includes(searchInput.toLowerCase())
             )}
             columns={columns}
           />
         </div>
       ) : (
         <div>
-          you are not authorized to view the page, please
+          You are not authorized to view the page, please
           <Link to={`/admin/login`}> login </Link> to view the details
         </div>
       )}

@@ -6,16 +6,18 @@ import axios from "axios";
 import { validUser } from "../../redux/actions/userAction";
 
 const Login = () => {
+  const [details, setDetails] = useState({ emailId: "", pwd: "" });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [details, setDetails] = useState({ emailId: "", pwd: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //On submit, get admin details from table
     let adminuser;
     try {
       const item = await axios(
-        `http://localhost:5000/api/v1/user/email/${details.emailId}`
+        `https://jotclouds.herokuapp.com/api/v1/user/email/${details.emailId}`
       );
       adminuser = item.data;
     } catch (error) {
@@ -28,7 +30,7 @@ const Login = () => {
       details.pwd === adminuser[0].pwd &&
       adminuser[0].is_admin
     ) {
-      localStorage.setItem("isValidUser", true);
+      // localStorage.setItem("isValidUser", true);
       dispatch(validUser(true));
       navigate("/admin/requests");
     } else {
@@ -36,6 +38,7 @@ const Login = () => {
     }
   };
 
+  //update details State
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
   };
