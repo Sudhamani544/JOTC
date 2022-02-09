@@ -1,4 +1,4 @@
-CREATE DATABASE jotcgame;
+-- CREATE DATABASE jotcgame;
 
 CREATE TABLE users(
 uid SERIAL PRIMARY KEY,
