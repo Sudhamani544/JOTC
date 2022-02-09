@@ -20,5 +20,5 @@ app.use("/api/v1/requests", reqRouter);
 app.use("/api/v1/user", userRouter);
 
 app.listen(app.get("port"), () => {
-  console.log("server running at http://localhost:%d", app.get("port"));
+  console.log("server running at http://localhost:%d/api/v1", app.get("port"));
 });
