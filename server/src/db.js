@@ -19,4 +19,11 @@ const pool = new Pool(
   process.env.NODE_ENV === "production" ? prodConfig : devConfig
 );
 
+pool
+  .connect()
+  .then(() => {
+    console.log("connected to pg");
+  })
+  .catch((err) => console.log(err));
+
 module.exports = pool;

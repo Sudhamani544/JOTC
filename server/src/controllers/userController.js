@@ -1,3 +1,5 @@
+const pool = require("../db");
+
 // POST /
 module.exports.createUser = async (req, res, next) => {
   try {

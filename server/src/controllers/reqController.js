@@ -1,3 +1,5 @@
+const pool = require("../db");
+
 // POST /
 module.exports.createRequest = async (req, res, next) => {
   try {
@@ -18,7 +20,7 @@ module.exports.getRequest = async (req, res, next) => {
     const getAllReq = await pool.query("SELECT * FROM jotcReq");
     res.json(getAllReq.rows);
   } catch (err) {
-    console.log(err.messages);
+    console.log(err);
   }
 };
 
