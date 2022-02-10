@@ -27,12 +27,10 @@ export const fetchRequestList = (data) => {
 export const getRequestByDate = (from, to) => {
   return async (dispatch, getState) => {
     try {
-      console.log("action", from, to);
       const getData = await axios(
         `https://jotclouds.herokuapp.com/api/v1/requests/date/${from}/${to}`
       );
       const dateList = getData.data;
-      console.log("getData", getData.data);
       dispatch(fetchByDate(dateList));
     } catch (error) {
       dispatch(fetchError(error));

@@ -139,16 +139,22 @@ a {
   color: white;
 }
 
-.reqTable {
-  margin-top: "2%";
+.adminLogin {
+  display: flex;
+  justify-content: right;
 }
 
-.reqRow {
-  background-color: "rgba(0, 0, 0, 0.2)";
+.adminLoginBtn {
+  margin: 2px;
+  border: 1px solid grey;
+  padding: 0.5%;
+  border-radius: 5px;
+  background-color: rgb(34, 3, 63);
 }
 
-.reqHeadCell {
-  font-weight: "bold";
+.adminLoginBtn:hover {
+  background-color: black;
+  color: white;
 }
 /* ---------------output.css------------------------ */
 

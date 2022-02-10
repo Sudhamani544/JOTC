@@ -73,16 +73,18 @@ const ValidateUser = () => {
     return getAge;
   };
 
+  //validate age and email
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //get age from date of birth
     const age = getAge(inputValues.dateOfBirth);
 
-    let isValid;
-    let email = JSON.parse(localStorage.getItem("emailId"));
+    let isValid = false;
+    let emailArr = JSON.parse(localStorage.getItem("emailId")) || [];
 
     //if email validated already, get result from local storage
-    for (const i in email) {
-      if (email[i] === inputValues.emailId) {
+    for (const i in emailArr) {
+      if (emailArr[i] === inputValues.emailId) {
         isValid = true;
       }
     }
@@ -94,10 +96,14 @@ const ValidateUser = () => {
         const item = await axios(
           `https://api.trumail.io/v2/lookups/json?email=${inputValues.emailId}`
         );
+        console.log("item", item);
         fetchAPI = item.data;
         if (fetchAPI.validFormat === true && fetchAPI.deliverable === true) {
-          email.push(inputValues.emailId);
-          localStorage.setItem("emailId", JSON.stringify(email));
+          //save to localstorage
+          let a = [];
+          a = JSON.parse(localStorage.getItem("emailId")) || [];
+          a.push(inputValues.emailId);
+          localStorage.setItem("emailId", JSON.stringify(a));
           isValid = true;
         } else {
           isValid = false;
@@ -138,6 +144,11 @@ const ValidateUser = () => {
 
   return (
     <div className="bg-image">
+      <div className="adminLogin">
+        <Link to={"/admin/login"} className="adminLoginBtn">
+          Login As Admin
+        </Link>
+      </div>
       <form className="form" onSubmit={handleSubmit}>
         {inputs.map((input) => (
           <FormInput
